@@ -2,7 +2,7 @@ import { ValueObject } from "../value-object";
 import { v4 as uuidv4 ,validate as uuidValidate} from 'uuid';
 export class Uuid extends ValueObject {
    readonly id: string;
-    constructor(id?: string) {
+    private constructor(id?: string) {
         super();
         this.id = id|| this.generateUuid();
         this.isValidUuid();
@@ -20,7 +20,9 @@ export class Uuid extends ValueObject {
         throw new InvalidUuidError()
       }
     }
- 
+    static create(id?: string): Uuid {
+        return new Uuid(id);
+    }
 }
 
 

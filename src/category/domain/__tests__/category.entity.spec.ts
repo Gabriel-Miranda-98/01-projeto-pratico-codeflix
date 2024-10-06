@@ -1,3 +1,4 @@
+import { Uuid } from "../../../shared/domain/value-objects/uuid.vo"
 import { Category } from "../category.entity"
 
 describe("Category Unit Test",()=>{
@@ -9,7 +10,7 @@ describe("Category Unit Test",()=>{
     expect(category.isActive).toBe(true)
     expect(category.createdAt).toBeInstanceOf(Date)
     expect(category.description).toBeNull()
-    expect(category.categoryId).toBeUndefined()
+    expect(category.categoryId).toBeInstanceOf(Uuid)
     const createdAt=new Date()
     category = new Category({
       name:"Test Category",
@@ -22,7 +23,7 @@ describe("Category Unit Test",()=>{
     expect(category.isActive).toBe(false)
     expect(category.createdAt).toBe(createdAt)
     expect(category.description).toBe("Test Description")
-    expect(category.categoryId).toBeUndefined()
+    expect(category.categoryId).toBeInstanceOf(Uuid)
   })
 
   it("should restore category",()=>{
@@ -33,7 +34,7 @@ describe("Category Unit Test",()=>{
       isActive:false,
       createdAt
     })
-    expect(category.categoryId).toBeUndefined()
+    expect(category.categoryId).toBeInstanceOf(Uuid)
     expect(category.name).toBe("Test Category")
     expect(category.isActive).toBe(false)
     expect(category.createdAt).toBe(createdAt)
@@ -83,9 +84,26 @@ describe("Category Unit Test",()=>{
       description:"Test Description",
       isActive:false
     })
-    expect(category.categoryId).toBeUndefined()
+    expect(category.categoryId).toBeInstanceOf(Uuid)
     expect(category.name).toBe("Test Category")
     expect(category.isActive).toBe(false)
     expect(category.description).toBe("Test Description")
+  })
+ 
+})
+
+
+describe("categoryId Field",()=>{
+  const arrange=[{categoryId:null},{categoryId:undefined},{categoryId:Uuid.create()}]
+  test.each(arrange)("should create category with categoryId %j",({categoryId})=>{
+    const category = new Category({
+      name:"Test Category",
+      categoryId: categoryId as any 
+    })
+    expect(category.categoryId).toBeInstanceOf(Uuid)
+
+    if(categoryId){
+      expect(category.categoryId).toBe(categoryId)
+    }
   })
 })
