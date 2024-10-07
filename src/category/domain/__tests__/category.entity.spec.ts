@@ -2,8 +2,12 @@ import { Uuid } from "../../../shared/domain/value-objects/uuid.vo"
 import { Category } from "../category.entity"
 
 describe("Category Unit Test",()=>{
+  let validateSpy:jest.SpyInstance
+  beforeEach(()=>{
+    validateSpy = jest.spyOn(Category,"validate")
+  })
   it("should create category",()=>{
-    let category = new Category({
+    let category = Category.create({
       name:"Test Category"
     })
     expect(category.name).toBe("Test Category")
@@ -11,8 +15,9 @@ describe("Category Unit Test",()=>{
     expect(category.createdAt).toBeInstanceOf(Date)
     expect(category.description).toBeNull()
     expect(category.categoryId).toBeInstanceOf(Uuid)
+    expect(validateSpy).toHaveBeenCalledTimes(1)
     const createdAt=new Date()
-    category = new Category({
+    category =  Category.restore({
       name:"Test Category",
       description:"Test Description",
       isActive:false,
@@ -24,6 +29,8 @@ describe("Category Unit Test",()=>{
     expect(category.createdAt).toBe(createdAt)
     expect(category.description).toBe("Test Description")
     expect(category.categoryId).toBeInstanceOf(Uuid)
+    expect(validateSpy).toHaveBeenCalledTimes(2)
+
   })
 
   it("should restore category",()=>{
@@ -39,6 +46,8 @@ describe("Category Unit Test",()=>{
     expect(category.isActive).toBe(false)
     expect(category.createdAt).toBe(createdAt)
     expect(category.description).toBe("Test Description")
+    expect(validateSpy).toHaveBeenCalledTimes(1)
+
     
   })
 
@@ -47,6 +56,8 @@ describe("Category Unit Test",()=>{
       name:"Test Category"
     })
     category.changeName("New Category")
+    
+
     expect(category.name).toBe("New Category")
   })
 
@@ -56,6 +67,8 @@ describe("Category Unit Test",()=>{
     })
     category.changeDescription("New Description")
     expect(category.description).toBe("New Description")
+    expect(validateSpy).toHaveBeenCalledTimes(2)
+
   })
 
 
@@ -66,6 +79,8 @@ describe("Category Unit Test",()=>{
     })
     category.activate()
     expect(category.isActive).toBe(true)
+    expect(validateSpy).toHaveBeenCalledTimes(1)
+
   })
 
   it("should deactivate category",()=>{
@@ -73,6 +88,8 @@ describe("Category Unit Test",()=>{
       name:"Test Category",
       isActive:true
     })
+    expect(validateSpy).toHaveBeenCalledTimes(1)
+
     category.deactivate()
     expect(category.isActive).toBe(false)
   })
@@ -96,7 +113,7 @@ describe("Category Unit Test",()=>{
 describe("categoryId Field",()=>{
   const arrange=[{categoryId:null},{categoryId:undefined},{categoryId:Uuid.create()}]
   test.each(arrange)("should create category with categoryId %j",({categoryId})=>{
-    const category = new Category({
+    const category = Category.restore({
       name:"Test Category",
       categoryId: categoryId as any 
     })

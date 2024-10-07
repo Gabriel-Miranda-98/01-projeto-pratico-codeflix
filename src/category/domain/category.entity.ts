@@ -21,7 +21,7 @@ export class Category{
  isActive: boolean
  createdAt: Date
 
- constructor(props:CategoryConstructorProps){
+ private constructor(props:CategoryConstructorProps){
     this.categoryId=props.categoryId?? Uuid.create()
     this.name=props.name
     this.description=props.description?? null
@@ -31,19 +31,25 @@ export class Category{
  }
 
  static restore(props:CategoryConstructorProps):Category{
-
-    return new Category(props)
+  const category = new Category(props)
+  Category.validate(category)
+  return category
  }
 
   static create(props:CategoryCreateCommand):Category{
-    return new Category(props)
+    const category = new Category(props)
+    Category.validate(category)
+    return category
   }
 
   changeName(name:string):void{
+    Category.validate(this)
+
     this.name=name
   }
 
   changeDescription(description:string|null):void{
+    Category.validate(this)
     this.description=description
   }
 
