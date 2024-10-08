@@ -39,14 +39,14 @@ describe("Value Object Unit Test",()=>{
 
     it("should compare null value object",()=>{
         const  valueObject1 = new StringValueObject("Test Value")
-        const valueObject2 = null
+        const valueObject2 = null as any
         expect(valueObject1.equals(valueObject2 as any)).toBe(false)
     })
 
 
     it("should compare undefined value object",()=>{
         const  valueObject1 = new StringValueObject("Test Value")
-        const valueObject2 = undefined
+        const valueObject2 = undefined as any
         expect(valueObject1.equals(valueObject2 as any)).toBe(false)
     })
 
