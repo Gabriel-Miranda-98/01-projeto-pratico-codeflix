@@ -23,7 +23,7 @@ export class Category extends Entity{
  isActive: boolean
  createdAt: Date
 
- private constructor(props:CategoryConstructorProps){
+constructor(props:CategoryConstructorProps){
     super()
     this.categoryId=props.categoryId?? Uuid.create()
     this.name=props.name
