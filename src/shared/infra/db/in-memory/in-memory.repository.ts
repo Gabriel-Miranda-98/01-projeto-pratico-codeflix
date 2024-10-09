@@ -45,7 +45,7 @@ implements ISearchableRepository<E,EntityId,Filter>
 {
   sortableFields: string[]=[];
   async search(props: SearchParams<Filter>): Promise<SearchResult<E>> {
-   const itemsFiltered=await this.applyFilters(this.items,props.filter);
+   const itemsFiltered=await this.applyFilter(this.items,props.filter);
    const itemsSorted=await this.applySort(itemsFiltered,props.sort,props.sort_dir);
    const itemsPaginated=this.applyPagination(itemsSorted,props.page,props.per_page);
 
@@ -58,7 +58,7 @@ implements ISearchableRepository<E,EntityId,Filter>
   }
   
 
-  protected abstract applyFilters(items:E[],filters:Filter|null):Promise<E[]>
+  protected abstract applyFilter(items:E[],filters:Filter|null):Promise<E[]>
 
   protected async applySort(items:E[],sort:string|null,sortDir:SortDirection|null,customGetter?: (sort: string, item: E) => any):Promise<E[]>{
     if (!sort || !this.sortableFields.includes(sort)) {
