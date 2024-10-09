@@ -1,4 +1,5 @@
 import { Entity } from "../../domain/entity";
+import { NotFoundError } from "../../domain/errors/not-found.error";
 import { IRepository } from "../../domain/repositories/repository.interface";
 import { ValueObject } from "../../domain/value-object";
 
@@ -12,12 +13,12 @@ export abstract class InMemoryRepository<E extends Entity, EntityId extends Valu
   }
   async update(entity: E): Promise<void> {
     const index = this.items.findIndex((item) => item.entityId.equals(entity.entityId))
-    if (index === -1) throw new Error("Entity not found")
+    if (index === -1) throw new NotFoundError(entity.entityId, this.getEntity())
     this.items[index] = entity
   }
   async delete(entity: E): Promise<void> {
     const index = this.items.findIndex((item) => item.entityId.equals(entity.entityId))
-    if (index === -1) throw new Error("Entity not found")
+    if (index === -1) throw new NotFoundError(entity.entityId, this.getEntity())
     this.items.splice(index, 1)
     }
 
