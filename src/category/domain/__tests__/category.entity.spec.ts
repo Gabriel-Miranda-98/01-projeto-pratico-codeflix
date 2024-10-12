@@ -18,6 +18,7 @@ describe("Category Unit Test",()=>{
     expect(validateSpy).toHaveBeenCalledTimes(1)
     const createdAt=new Date()
     category =  Category.restore({
+      categoryId: category.categoryId.id,
       name:"Test Category",
       description:"Test Description",
       isActive:false,
@@ -36,6 +37,7 @@ describe("Category Unit Test",()=>{
   it("should restore category",()=>{
     const createdAt=new Date()
     const category = Category.restore({
+      categoryId:Uuid.create().id,
       name:"Test Category",
       description:"Test Description",
       isActive:false,
@@ -111,16 +113,19 @@ describe("Category Unit Test",()=>{
 
 
 describe("categoryId Field",()=>{
-  const arrange=[{categoryId:null},{categoryId:undefined},{categoryId:Uuid.create()}]
+  const arrange=[{categoryId:null},{categoryId:undefined},{categoryId:Uuid.create().id}]
   test.each(arrange)("should create category with categoryId %j",({categoryId})=>{
     const category = Category.restore({
       name:"Test Category",
-      categoryId: categoryId as any 
+      categoryId,
+      createdAt:new Date(),
+      description:"Test Description",
+      isActive:false
     })
     expect(category.categoryId).toBeInstanceOf(Uuid)
 
     if(categoryId){
-      expect(category.categoryId).toBe(categoryId)
+      expect(category.categoryId.id).toBe(categoryId)
     }
   })
 })

@@ -12,6 +12,14 @@ export type CategoryConstructorProps={
   createdAt?: Date
 }
 
+export type CategoryRestoreProps={
+  categoryId: string
+  name: string
+  description: string|null
+  isActive: boolean
+  createdAt: Date
+}
+
 export type CategoryCreateCommand={
   name: string
   description?: string|null
@@ -38,8 +46,11 @@ constructor(props:CategoryConstructorProps){
     return this.categoryId
  }
 
- static restore(props:CategoryConstructorProps):Category{
-  const category = new Category(props)
+ static restore(props:CategoryRestoreProps):Category{
+  const category = new Category({
+    ...props,
+    categoryId:Uuid.create(props.categoryId)
+  })
   Category.validate(category)
   return category
  }
