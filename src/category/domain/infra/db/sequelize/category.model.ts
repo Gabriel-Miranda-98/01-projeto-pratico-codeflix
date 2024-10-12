@@ -1,11 +1,20 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
+
+export type CategoryModelAttributes = {
+  categoryId: string
+  name: string
+  description: string|null
+  isActive: boolean
+  createdAt: Date
+}
+
 @Table({
   tableName: "categories",
   timestamps: false,
   underscored: true,
   createdAt: "created_at",
 })
-export class CategoryModel extends Model{
+export class CategoryModel extends Model<CategoryModelAttributes>{
 
   @Column({ type: DataType.UUIDV4, primaryKey: true })
   declare categoryId: string
