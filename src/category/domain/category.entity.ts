@@ -26,24 +26,46 @@ export type CategoryCreateCommand={
   isActive?: boolean
 }
 export class Category extends Entity{
- categoryId: Uuid
- name: string
- description: string|null
- isActive: boolean
- createdAt: Date
+ private _categoryId: Uuid
+ private _name: string
+ private _description: string|null
+ private _isActive: boolean
+ private _createdAt: Date
 
 constructor(props:CategoryConstructorProps){
     super()
-    this.categoryId=props.categoryId?? Uuid.create()
-    this.name=props.name
-    this.description=props.description?? null
-    this.isActive=props.isActive?? true
-    this.createdAt=props.createdAt?? new Date()
+    this._categoryId=props.categoryId?? Uuid.create()
+    this._name=props.name
+    this._description=props.description?? null
+    this._isActive=props.isActive?? true
+    this._createdAt=props.createdAt?? new Date()
 
  }
 
+ get categoryId(){
+    return this._categoryId
+ }
+
+ get name(){
+    return this._name
+ }
+
+  get description(){
+      return this._description
+  }
+
+  get isActive(){
+      return this._isActive
+  }
+
+  get createdAt(){
+      return this._createdAt
+  }
+
+
+
  get entityId(){
-    return this.categoryId
+    return this._categoryId
  }
 
  static restore(props:CategoryRestoreProps):Category{
@@ -62,22 +84,22 @@ constructor(props:CategoryConstructorProps){
   }
 
   changeName(name:string):void{
-    this.name=name
+    this._name=name
     Category.validate(this)
   }
 
   changeDescription(description:string|null):void{
     
-    this.description=description
+    this._description=description
     Category.validate(this)
   }
 
   activate():void{
-    this.isActive=true
+    this._isActive=true
   }
 
   deactivate():void{
-    this.isActive=false
+    this._isActive=false
   }
 
   static validate(entity:Category){
@@ -94,7 +116,7 @@ constructor(props:CategoryConstructorProps){
 
   toJSON(){
     return {
-      categoryId:this.categoryId.id,
+      categoryId:this._categoryId.id,
       name:this.name,
       description:this.description,
       isActive:this.isActive,
