@@ -4,19 +4,14 @@ import { CategorySequelizeRepository } from "../category.repository"
 import { Category } from "../../../../category.entity"
 import { NotFoundError } from "../../../../../../shared/domain/errors/not-found.error"
 import { CategorySearchParams } from "../../../../repositories/category.repository"
+import { setupSequelize } from "../../../../../../shared/infra/testing/helpers"
 
 describe("CategorySequelizeRepository Integration Tests", () => {
-  let sequelize: Sequelize
   let categorySequelizeRepository: CategorySequelizeRepository
+  setupSequelize({
+    models: [CategoryModel],
+  })
   beforeEach(async()=>{
-    sequelize = new Sequelize({
-      dialect: "sqlite",
-      storage: ":memory:",
-      models: [CategoryModel],
-      logging: false
-    })
-
-    await sequelize.sync({force: true})
     categorySequelizeRepository = new CategorySequelizeRepository(CategoryModel)
   })
 

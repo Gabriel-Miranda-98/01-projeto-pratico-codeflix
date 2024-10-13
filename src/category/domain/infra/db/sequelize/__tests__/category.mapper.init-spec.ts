@@ -3,19 +3,11 @@ import { CategoryModel } from "../category.model"
 import { Category } from "../../../../category.entity"
 import { CategoryModelMapper } from "../mappers/category.mapper"
 import { EntityValidationError } from "../../../../../../shared/domain/validators/validation.error"
+import { setupSequelize } from "../../../../../../shared/infra/testing/helpers"
 
 describe('CategoryMapper Integration Tests', () => {
-  let sequelize: Sequelize
-  beforeEach(async()=>{
-    sequelize = new Sequelize({
-      dialect: "sqlite",
-      storage: ":memory:",
-      models: [CategoryModel
-      ],
-      logging: false
-    })
-
-    await sequelize.sync({force: true})
+  setupSequelize({
+    models: [CategoryModel],
   })
 
 
