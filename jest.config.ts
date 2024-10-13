@@ -146,7 +146,7 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-   testEnvironment: "node",
+  // testEnvironment: "node",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -155,10 +155,11 @@ const config: Config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: [
+    '**/__tests__/**/*.ts',
+    '**/?(*.)+(spec|test).ts',
+    '**/?(*.)+(init-spec).ts'
+  ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -177,7 +178,7 @@ const config: Config = {
   // A map from regular expressions to paths to transformers
   // define user @swc/jest to use swc as the transformer
    transform: {
-    '^.+\\.tsx?$': '@swc/jest',
+    '^.+\\.ts$': '@swc/jest',
    },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
