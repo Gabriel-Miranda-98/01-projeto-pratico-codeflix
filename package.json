@@ -4,8 +4,8 @@
   "main": "index.js",
   "description": " Repositório do curso de Microservices com Nest.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch"
   },
   "keywords": [],
   "author": "Gabriel Miranda",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
     "lodash": "^4.17.21",
     "sequelize": "^6.37.4",
     "sequelize-typescript": "^2.1.6",
