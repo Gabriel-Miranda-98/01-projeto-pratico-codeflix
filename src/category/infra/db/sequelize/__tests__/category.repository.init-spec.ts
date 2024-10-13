@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize-typescript"
 import { CategoryModel } from "../category.model"
 import { CategorySequelizeRepository } from "../category.repository"
-import { Category } from "../../../../category.entity"
-import { NotFoundError } from "../../../../../../shared/domain/errors/not-found.error"
-import { CategorySearchParams } from "../../../../repositories/category.repository"
-import { setupSequelize } from "../../../../../../shared/infra/testing/helpers"
+import { Category } from "../../../../domain/category.entity"
+import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error"
+import { CategorySearchParams } from "../../../../domain/repositories/category.repository"
+import { setupSequelize } from "../../../../../shared/infra/testing/helpers"
 
 describe("CategorySequelizeRepository Integration Tests", () => {
   let categorySequelizeRepository: CategorySequelizeRepository

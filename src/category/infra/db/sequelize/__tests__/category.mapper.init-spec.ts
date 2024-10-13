@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize-typescript"
 import { CategoryModel } from "../category.model"
-import { Category } from "../../../../category.entity"
+import { Category } from "../../../../domain/category.entity"
 import { CategoryModelMapper } from "../mappers/category.mapper"
-import { EntityValidationError } from "../../../../../../shared/domain/validators/validation.error"
-import { setupSequelize } from "../../../../../../shared/infra/testing/helpers"
+import { EntityValidationError } from "../../../../../shared/domain/validators/validation.error"
+import { setupSequelize } from "../../../../../shared/infra/testing/helpers"
 
 describe('CategoryMapper Integration Tests', () => {
   setupSequelize({
