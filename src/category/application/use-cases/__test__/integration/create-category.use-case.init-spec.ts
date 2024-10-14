@@ -30,7 +30,7 @@ describe('Create Category Use Case Integration Test', () => {
     expect(output.id).toBeDefined()
     expect(output.name).toBe(input.name)
     expect(output.description).toBe(input.description)
-    expect(output.isActivated).toBe(input.isActive)
+    expect(output.isActive).toBe(input.isActive)
     expect(output.createdAt).toBeDefined()
   })
   it('should create a category', async () => {
@@ -45,7 +45,7 @@ describe('Create Category Use Case Integration Test', () => {
     expect(output.id).toBeDefined()
     expect(output.name).toBe(input.name)
     expect(output.description).toBe(input.description)
-    expect(output.isActivated).toBe(input.isActive)
+    expect(output.isActive).toBe(input.isActive)
     expect(output.createdAt).toBeDefined()
 
     const category = await categoryRepository.findById(Uuid.create(output.id))

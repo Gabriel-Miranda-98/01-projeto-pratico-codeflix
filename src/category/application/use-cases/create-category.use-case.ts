@@ -1,6 +1,7 @@
 import { IUseCase } from "../../../shared/application/use-case.interface"
 import { Category } from "../../domain/category.entity"
 import { ICategoryRepository } from "../../domain/repositories/category.repository"
+import { CategoryOutput, CategoryOutputMapper } from "./common/category-output"
 
 
 export type CreateCategoryInput = {
@@ -10,13 +11,7 @@ export type CreateCategoryInput = {
 
 }
 
-export type CreateCategoryOutput = {
-  id: string
-  name: string
-  description: string|null
-  isActivated: boolean
-  createdAt: Date
-}
+export type CreateCategoryOutput =CategoryOutput
 
 
 export class CreateCategoryUseCase implements IUseCase<CreateCategoryInput, CreateCategoryOutput> {
@@ -26,13 +21,7 @@ export class CreateCategoryUseCase implements IUseCase<CreateCategoryInput, Crea
 
     await this.categoryRepository.insert(category)
 
-    return {
-      id: category.categoryId.id,
-      name: category.name,
-      description: category.description,
-      isActivated: category.isActive,
-      createdAt: category.createdAt
-    }
+    return CategoryOutputMapper.toOutput(category)
 
   }
 }
