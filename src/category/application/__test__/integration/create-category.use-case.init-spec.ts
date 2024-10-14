@@ -13,27 +13,26 @@ describe('Create Category Use Case Integration Test', () => {
     useCase = new CreateCategoryUseCase(categoryRepository)
   })
 
-  // // use each test to create a new category
 
-  // it.each([
-  //   ['Category Test', 'Category Description Test', true],
-  //   ['Category Test', null, true],
-  //   ['Category Test', 'Category Description Test', false],
-  // ])('should create a category', async (name, description, isActive) => {
-  //   const input = {
-  //     name,
-  //     description,
-  //     isActive
-  //   }
+  it.each([
+    ['Category Test', 'Category Description Test', true],
+    ['Category Test', null, true],
+    ['Category Test', 'Category Description Test', false],
+  ])('should create a category', async (name, description, isActive) => {
+    const input = {
+      name,
+      description,
+      isActive
+    }
 
-  //   const output = await useCase.execute(input)
+    const output = await useCase.execute(input)
 
-  //   expect(output.id).toBeDefined()
-  //   expect(output.name).toBe(input.name)
-  //   expect(output.description).toBe(input.description)
-  //   expect(output.isActivated).toBe(input.isActive)
-  //   expect(output.createdAt).toBeDefined()
-  // })
+    expect(output.id).toBeDefined()
+    expect(output.name).toBe(input.name)
+    expect(output.description).toBe(input.description)
+    expect(output.isActivated).toBe(input.isActive)
+    expect(output.createdAt).toBeDefined()
+  })
   it('should create a category', async () => {
     const input = {
       name: 'Category Test',

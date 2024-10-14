@@ -26,7 +26,7 @@ export class CreateCategoryUseCase implements IUseCase<CreateCategoryInput, Crea
     await this.categoryRepository.insert(category)
 
     return {
-      id: category.entityId.id,
+      id: category.categoryId.id,
       name: category.name,
       description: category.description,
       isActivated: category.isActive,
