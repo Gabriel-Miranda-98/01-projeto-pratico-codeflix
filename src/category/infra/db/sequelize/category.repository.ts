@@ -28,11 +28,11 @@ export class CategorySequelizeRepository implements ICategoryRepository{
       }
     })
   }
-  async delete(entity: Category): Promise<void> {
-    await this.validateExisteCategory(entity.categoryId)
+  async delete(entityId: Uuid): Promise<void> {
+    await this.validateExisteCategory(entityId)
     await this.categoryModel.destroy({
       where:{
-        categoryId:entity.categoryId.id
+        categoryId:entityId.id
       }
     })
   }

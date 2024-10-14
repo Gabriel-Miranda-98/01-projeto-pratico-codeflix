@@ -4,6 +4,7 @@ import { IRepository, ISearchableRepository } from "../../../domain/repositories
 import { SearchParams, SortDirection } from "../../../domain/repositories/search-params";
 import { SearchResult } from "../../../domain/repositories/search-result";
 import { ValueObject } from "../../../domain/value-object";
+import { Uuid } from "../../../domain/value-objects/uuid.vo";
 
 export abstract class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E,EntityId>{
   items: E[] = []
@@ -18,9 +19,9 @@ export abstract class InMemoryRepository<E extends Entity, EntityId extends Valu
     if (index === -1) throw new NotFoundError(entity.entityId, this.getEntity())
     this.items[index] = entity
   }
-  async delete(entity: E): Promise<void> {
-    const index = this.items.findIndex((item) => item.entityId.equals(entity.entityId))
-    if (index === -1) throw new NotFoundError(entity.entityId, this.getEntity())
+  async delete(entityId: Uuid): Promise<void> {
+    const index = this.items.findIndex((item) => item.entityId.equals(entityId))
+    if (index === -1) throw new NotFoundError(entityId, this.getEntity())
     this.items.splice(index, 1)
     }
 

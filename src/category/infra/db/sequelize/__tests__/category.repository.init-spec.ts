@@ -43,7 +43,7 @@ describe("CategorySequelizeRepository Integration Tests", () => {
     const category = Category.fake().aCategory().build()
     await categorySequelizeRepository.insert(category)
 
-    await categorySequelizeRepository.delete(category)
+    await categorySequelizeRepository.delete(category.categoryId)
 
     const categoryDeleted = await CategoryModel.findByPk(category.categoryId.id)
 
@@ -150,6 +150,6 @@ describe("CategorySequelizeRepository Integration Tests", () => {
 
   it("should return not found when try to delete a category that does not exist", async () => {
     const category = Category.fake().aCategory().build()
-    await expect(categorySequelizeRepository.delete(category)).rejects.toThrow(new NotFoundError(category.categoryId.id,Category))
+    await expect(categorySequelizeRepository.delete(category.categoryId)).rejects.toThrow(new NotFoundError(category.categoryId.id,Category))
   })
 })

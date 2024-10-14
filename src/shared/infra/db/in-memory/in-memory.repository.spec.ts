@@ -104,7 +104,7 @@ it("should delete an entity", async () => {
     entityId:Uuid.create()
   })
   await repository.insert(entity)
-  await repository.delete(entity)
+  await repository.delete(entity.entityId)
   expect(repository.items).not.toContain(entity)
   expect(repository.items.length).toBe(0)
 })
@@ -172,7 +172,7 @@ it("should throws error on delete when entity is not found", async () => {
     price: 1,
     entityId:Uuid.create()
   })
-  await expect(repository.delete(entity)).rejects.toThrow(new NotFoundError(entity.entityId, StubEntity))
+  await expect(repository.delete(entity.entityId)).rejects.toThrow(new NotFoundError(entity.entityId, StubEntity))
 })
 
 
