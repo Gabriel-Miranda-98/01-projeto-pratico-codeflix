@@ -4,8 +4,9 @@
   "main": "index.js",
   "description": " Repositório do curso de Microservices com Nest.js",
   "scripts": {
-    "test": "NODE_ENV=test jest",
-    "test:watch": "NODE_ENV=test jest --watch"
+    "tsc:check":"tsc --noEmit",
+    "test": "npm run tsc:check && NODE_ENV=test jest",
+    "test:watch": "npm run tsc:check &&  NODE_ENV=test jest --watch"
   },
   "keywords": [],
   "author": "Gabriel Miranda",
