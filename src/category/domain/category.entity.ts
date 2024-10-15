@@ -25,6 +25,9 @@ export type CategoryCreateCommand={
   description?: string|null
   isActive?: boolean
 }
+
+type ValidatableFields = Omit<CategoryConstructorProps,'categoryId'|'createdAt'|'description'|'isActive'>
+
 export class Category extends Entity{
  private _categoryId: Uuid
  private _name: string
@@ -70,28 +73,37 @@ constructor(props:CategoryConstructorProps){
 
  static restore(props:CategoryRestoreProps):Category{
   const category = new Category({
-    ...props,
-    categoryId:Uuid.create(props.categoryId)
+    categoryId:Uuid.create(props.categoryId),
+    name:props.name,
+    description:props.description,
+    isActive:props.isActive,
+    createdAt:props.createdAt,
+
+    
   })
-  Category.validate(category)
+
+
+  category.validate()
+
+
   return category
  }
 
   static create(props:CategoryCreateCommand):Category{
     const category = new Category(props)
-    Category.validate(category)
+    category.validate(["name"])
     return category
   }
 
   changeName(name:string):void{
     this._name=name
-    Category.validate(this)
+    this.validate(["name"])
   }
 
   changeDescription(description:string|null):void{
     
     this._description=description
-    Category.validate(this)
+
   }
 
   activate():void{
@@ -102,12 +114,9 @@ constructor(props:CategoryConstructorProps){
     this._isActive=false
   }
 
-  static validate(entity:Category){
+   validate(fields?:Array<keyof ValidatableFields>){
     const validator = CategoryValidatorFactory.create()
-    const isValid =validator.validate(entity)
-    if(!isValid){
-      throw new EntityValidationError(validator.errors)
-    }
+    return validator.validate(this.notification,this.toJSON(),fields)
   }
 
   static fake(){

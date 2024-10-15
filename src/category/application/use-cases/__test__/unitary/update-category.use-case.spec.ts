@@ -34,6 +34,19 @@ describe('UpdateCategoryUseCase Unit Test', () => {
     await expect(useCase.execute(input)).rejects.toThrow(new NotFoundError(input.id, Category))
   })
 
+  it('should throw an error when name is too long', async () => {
+    const categoryInsert = Category.fake().aCategory().withName('Category Test').build()
+    await categoryRepository.insert(categoryInsert)
+    const input = {
+      id: categoryInsert.categoryId.id,
+      name: 'a'.repeat(256),
+      description: 'Category Description Test',
+      isActive: false
+    }
+
+    await expect(useCase.execute(input)).rejects.toThrow('Entity Validation Error')
+  })
+
   it('should update a category', async () => {
     const spyUpdate = jest.spyOn(categoryRepository, 'update')
     const categoryInsert = Category.fake().aCategory().withName('Category Test').build()

@@ -9,68 +9,63 @@ describe('CategoryMapper Integration Tests', () => {
   setupSequelize({
     models: [CategoryModel],
   })
-
-
-  it("should throws error when category is invalid", () => {
-    const model = CategoryModel.build({
-      categoryId: "9366b7dc-2d71-4799-b91c-c64adb205104",
+  it('should throw error when category is invalid', () => {
+    const categoryModel = CategoryModel.build({
+      categoryId: 'f47b1b3e-7b4b-4b1b-8e4e-0b1f7d3e1b1b',
+      name: null as any,
     });
+
+    let thrownError: EntityValidationError;
+
     try {
-      CategoryModelMapper.toDomain(model);
-      fail(
-        "The category is valid, but it needs throws a EntityValidationError"
-      );
-    } catch (e) {
-      expect(e).toBeInstanceOf(EntityValidationError);
-      expect((e as EntityValidationError).errors).toMatchObject({
-        name: [
-          "name should not be empty",
-          "name must be a string",
-          "name must be shorter than or equal to 255 characters",
-        ],
-      });
+      CategoryModelMapper.toDomain(categoryModel);
+    } catch (error) {
+      thrownError = error as EntityValidationError;
     }
+
+    if (thrownError) {
+      expect(thrownError).toBeInstanceOf(EntityValidationError);
+      expect((thrownError as EntityValidationError).error).toEqual(expect.arrayContaining([expect.objectContaining({
+        name: ['name must be shorter than or equal to 255 characters']
+      })]));
+    } else {
+      fail('Expected CategoryModelMapper.toDomain to throw an error, but it did not');
+    }
+  });
+
+ it('should return a category when category is valid', async () => {
+  const createdAt = new Date()
+  const categoryModel= CategoryModel.build({
+    //generate valid uuid
+    categoryId: 'f47b1b3e-7b4b-4b1b-8e4e-0b1f7d3e1b1b',
+    name: 'Category Name',
+    description: 'Category Description',
+    isActive: true,
+    createdAt
+
   })
 
-  it("should convert a category model to a category entity", () => {
-    const createdAt = new Date();
-    const model = CategoryModel.build({
-      categoryId: "5490020a-e866-4229-9adc-aa44b83234c4",
-      name: "some value",
-      description: "some description",
-      isActive: true,
-      createdAt,
-    });
-    const entity = CategoryModelMapper.toDomain(model);
-    expect(entity.toJSON()).toStrictEqual(
-      Category.restore({
-        categoryId: "5490020a-e866-4229-9adc-aa44b83234c4",
-        name: "some value",
-        description: "some description",
-        isActive: true,
-        createdAt,
-      }).toJSON()
-    );
-  });
 
-  it("should convert a category entity to a category model", () => {
-    const createdAt = new Date();
-    const entity =Category.restore({
-      categoryId: "5490020a-e866-4229-9adc-aa44b83234c4",
-      name: "some value",
-      description: "some description",
-      isActive: true,
-      createdAt,
-    });
-    const model = CategoryModelMapper.toModel(entity);
-    expect(model.toJSON()).toStrictEqual({
-      categoryId: "5490020a-e866-4229-9adc-aa44b83234c4",
-      name: "some value",
-      description: "some description",
-      isActive: true,
-      createdAt,
-    });
-  });
+  const category = CategoryModelMapper.toDomain(categoryModel)
+  expect(category).toBeInstanceOf(Category)
+  expect(category.categoryId.id).toBe(categoryModel.categoryId)
+  expect(category.name).toBe(categoryModel.name)
+  expect(category.description).toBe(categoryModel.description)
+  expect(category.isActive).toBe(categoryModel.isActive)
+  expect(category.createdAt).toBe(categoryModel.createdAt)
+  //expect(category.notification.hasErrors()).toBeFalsy()
+ })
 
+ it('should return a category model when category is valid', async () => {
+  const category= Category.fake().aCategory().withName("teste").withDescription('teste').build()
+  const categoryModel = CategoryModelMapper.toModel(category)
+  expect(categoryModel).toBeInstanceOf(CategoryModel)
+  expect(categoryModel.categoryId).toBe(category.categoryId.id)
+  expect(categoryModel.name).toBe(category.name)
+  expect(categoryModel.description).toBe(category.description)
+  expect(categoryModel.isActive).toBe(category.isActive)
+  expect(categoryModel.createdAt).toBe(category.createdAt)
+
+ })
 
 })

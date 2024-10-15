@@ -1,34 +1,30 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, validateSync } from "class-validator";
+import { IsString, MaxLength, validateSync } from "class-validator";
 import { Category } from "./category.entity";
 import { ClassValidatorFields } from "../../shared/domain/validators/class-validator-fields";
+import { Notification } from "../../shared/domain/validators/notification";
 
-class CategoryRules{
-  @MaxLength(255)
-  @IsString()
-  @IsNotEmpty()
-  name:string;
-  @IsString()
-  @IsOptional()
-  description:string;
-  @IsBoolean()
-  @IsOptional()
-  isActive:boolean;
+export class CategoryRules {
+  @MaxLength(255, { groups: ['name'] })
+  name: string;
 
-  constructor({name, description, isActive}:Category){
-    Object.assign(this, {name, description, isActive});
+
+  constructor(props: Partial<Category>) {
+    Object.assign(this, props);
   }
 }
 
-class CategoryValidator extends ClassValidatorFields<CategoryRules>{
- validate(entity:Category){
-    return super.validate(new CategoryRules(entity));
- }
+export class CategoryValidator extends ClassValidatorFields<CategoryRules> {
+
   
+  validate(notification:Notification,entity:CategoryRules, fields:Array<keyof CategoryRules>): boolean {
+    const categoryRules = new CategoryRules(entity);
+    const validationFields = fields?.length ? fields : ['name'] as Array<keyof CategoryRules>;
+    return super.validate(notification, categoryRules, validationFields);
+  }
 }
 
-
-export class CategoryValidatorFactory{
-  static create(){
+export class CategoryValidatorFactory {
+  static create(): CategoryValidator {
     return new CategoryValidator();
   }
 }

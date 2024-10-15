@@ -77,4 +77,15 @@ describe('Create Category Use Case Unit Test', () => {
     expect(output.createdAt).toBeDefined()
     expect(spyInsert).toHaveBeenCalledTimes(1)
   })
+
+  it('should throw error when name is too long', async () => {
+      const input ={
+        name: 'a'.repeat(256),
+      }
+
+      const output =  useCase.execute(input)
+
+      await expect(output).rejects.toThrow('Entity Validation Error')
+    
+  })
 })

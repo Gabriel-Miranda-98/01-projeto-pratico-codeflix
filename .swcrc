@@ -7,6 +7,10 @@
     "transform": {
       "legacyDecorator": true,
       "decoratorMetadata": true
-    }
+    },
+    "target": "es2017"
+  },
+  "module": {
+    "type": "commonjs"
   }
 }
