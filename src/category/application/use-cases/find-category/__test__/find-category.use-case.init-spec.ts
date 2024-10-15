@@ -3,7 +3,7 @@ import { Category } from '../../../../domain/category.entity';
 import { CategoryModel } from '../../../../infra/db/sequelize/category.model';
 import { CategorySequelizeRepository } from '../../../../infra/db/sequelize/category.repository';
 import { CategoryOutputMapper } from '../../common/category-output';
-import { FindCategoryUseCase } from '../../find-category.use-case';
+import { FindCategoryUseCase } from '../find-category.use-case';
 describe('FindCategoryUseCase Integration Tests', () => {
   let useCase: FindCategoryUseCase;
   let repository: CategorySequelizeRepository;

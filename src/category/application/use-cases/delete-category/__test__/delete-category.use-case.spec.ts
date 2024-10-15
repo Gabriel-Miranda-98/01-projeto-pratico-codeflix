@@ -2,15 +2,15 @@ import { NotFoundError } from "../../../../../shared/domain/errors/not-found.err
 import { InvalidUuidError, Uuid } from "../../../../../shared/domain/value-objects/uuid.vo"
 import { Category } from "../../../../domain/category.entity"
 import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository"
-import { GetCategoryUseCase } from "../../get-category.use-case"
+import { DeleteCategoryUseCase } from "../delete-category.use-case"
 
-describe("GetCategoryUseCase Unit Test", () => {
-  let usecase: GetCategoryUseCase
+describe("InMemoryRepository Unit Tests", () => {
+  let usecase: DeleteCategoryUseCase
   let repository: CategoryInMemoryRepository
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    usecase = new GetCategoryUseCase(repository)
+    usecase = new DeleteCategoryUseCase(repository)
   })
 
   it("should throw an error when category not found", async () => {
@@ -26,18 +26,15 @@ describe("GetCategoryUseCase Unit Test", () => {
     })).rejects.toThrow(new InvalidUuidError())
   })
 
-  it("should get a category", async () => {
+  it("should delete a category", async () => {
     const category = Category.fake().aCategory().build()
     await repository.insert(category)
-    const result = await usecase.execute({
+    const spyDelete = jest.spyOn(repository, "delete")
+    await usecase.execute({
       id: category.categoryId.id
     })
-    expect(result).toEqual({
-      id: category.categoryId.id,
-      name: category.name,
-      description: category.description,
-      isActive: category.isActive,
-      createdAt: category.createdAt
-    })
+    const result = await repository.findById(category.categoryId)
+    expect(result).toBeNull()
+    expect(spyDelete).toHaveBeenCalledTimes
   })
 })
