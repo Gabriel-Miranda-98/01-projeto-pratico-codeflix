@@ -1,38 +1,36 @@
-import { ValueObject } from "../value-object";
-import { v4 as uuidv4 ,validate as uuidValidate} from 'uuid';
+import { ValueObject } from '../value-object';
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 export class Uuid extends ValueObject {
-   readonly id: string;
-    private constructor(id?: string) {
-        super();
-        this.id = id|| this.generateUuid();
-        this.isValidUuid();
-    }
+  readonly id: string;
+  private constructor(id?: string) {
+    super();
+    this.id = id || this.generateUuid();
+    this.isValidUuid();
+  }
 
-    private generateUuid(): string {
-        return uuidv4();
-    }
-  
-    private isValidUuid() {
+  private generateUuid(): string {
+    return uuidv4();
+  }
 
-      const isValidUuid = uuidValidate(this.id);
+  private isValidUuid() {
+    const isValidUuid = uuidValidate(this.id);
 
-      if (!isValidUuid) {
-        throw new InvalidUuidError()
-      }
+    if (!isValidUuid) {
+      throw new InvalidUuidError();
     }
-    static create(id?: string): Uuid {
-        return new Uuid(id);
-    }
+  }
+  static create(id?: string): Uuid {
+    return new Uuid(id);
+  }
 
-    toString(): string {
-        return this.id;
-    }
+  toString(): string {
+    return this.id;
+  }
 }
-
 
 export class InvalidUuidError extends Error {
   constructor(message?: string) {
-    super(message||"ID must be a valid UUID");
-    this.name = "InvalidUuidError";
+    super(message || 'ID must be a valid UUID');
+    this.name = 'InvalidUuidError';
   }
 }

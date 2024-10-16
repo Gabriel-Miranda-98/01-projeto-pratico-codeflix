@@ -10,9 +10,10 @@ import { CategorySequelizeRepository } from '@core/category/infra/db/sequelize/c
   providers: [
     {
       provide: CategorySequelizeRepository,
-      useFactory:(categoryModel: typeof CategoryModel)=> new CategorySequelizeRepository(categoryModel),
-      inject:[getModelToken(CategoryModel)],
-    }
+      useFactory: (categoryModel: typeof CategoryModel) =>
+        new CategorySequelizeRepository(categoryModel),
+      inject: [getModelToken(CategoryModel)],
+    },
   ],
 })
 export class CategoriesModule {}

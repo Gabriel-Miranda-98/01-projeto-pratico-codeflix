@@ -2,9 +2,8 @@ import { config as readEnv } from 'dotenv';
 import { join } from 'node:path';
 export class Config {
   static env: any = null;
-  
-  static db() {
 
+  static db() {
     Config.readEnv();
     return {
       dialect: 'sqlite' as any,
@@ -17,7 +16,6 @@ export class Config {
       return;
     }
     Config.env = readEnv({
-      
       path: join(__dirname, `../../../../envs/.env.${process.env.NODE_ENV}`),
     }).parsed;
   }

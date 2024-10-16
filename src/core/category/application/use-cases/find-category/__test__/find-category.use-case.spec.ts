@@ -61,17 +61,17 @@ describe('ListCategoriesUseCase Unit Tests', () => {
   });
   it('should return output using pagination, sort and filter', async () => {
     const items = [
-     Category.create({ name: 'a' }),
-     Category.create({
+      Category.create({ name: 'a' }),
+      Category.create({
         name: 'AAA',
       }),
-     Category.create({
+      Category.create({
         name: 'AaA',
       }),
-     Category.create({
+      Category.create({
         name: 'b',
       }),
-     Category.create({
+      Category.create({
         name: 'c',
       }),
     ];

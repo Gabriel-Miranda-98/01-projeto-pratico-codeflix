@@ -19,7 +19,10 @@ describe('CategoryOutputMapper', () => {
   });
 
   it('should handle null description correctly', () => {
-    const mockCategory = Category.fake().aCategory().withDescription(null).build();
+    const mockCategory = Category.fake()
+      .aCategory()
+      .withDescription(null)
+      .build();
     const spyToJSON = jest.spyOn(mockCategory, 'toJSON');
 
     const expectedOutput = {

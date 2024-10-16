@@ -1,6 +1,6 @@
-import { Category } from "./category.entity";
-import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
-import { Chance } from "chance";
+import { Category } from './category.entity';
+import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
+import { Chance } from 'chance';
 type PropOrFactory<T> = T | ((index: number) => T);
 export class CategoryFakeBuilder<TBuild = any> {
   // auto generated in entity
@@ -75,32 +75,32 @@ export class CategoryFakeBuilder<TBuild = any> {
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
   get categoryId() {
-    return this.getValue("categoryId");
+    return this.getValue('categoryId');
   }
   get name() {
-    return this.getValue("name");
+    return this.getValue('name');
   }
   get description() {
-    return this.getValue("description");
+    return this.getValue('description');
   }
   get isActive() {
-    return this.getValue("isActive");
+    return this.getValue('isActive');
   }
   get createdAt() {
-    return this.getValue("createdAt");
+    return this.getValue('createdAt');
   }
   private getValue(prop: any) {
-    const optional = ["categoryId", "createdAt"];
+    const optional = ['categoryId', 'createdAt'];
     const privateProp = `_${prop}` as keyof this;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(
-        `Property ${prop} not have a factory, use 'with' methods`
+        `Property ${prop} not have a factory, use 'with' methods`,
       );
     }
     return this.callFactory(this[privateProp], 0);
   }
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
-    return typeof factoryOrValue === "function"
+    return typeof factoryOrValue === 'function'
       ? factoryOrValue(index)
       : factoryOrValue;
   }

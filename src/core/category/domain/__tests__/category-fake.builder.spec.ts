@@ -6,9 +6,7 @@ describe('CategoryFakerBuilder Unit Tests', () => {
     const faker = CategoryFakeBuilder.aCategory();
     test('should throw error when any with methods has called', () => {
       expect(() => faker.categoryId).toThrow(
-        new Error(
-          "Property categoryId not have a factory, use 'with' methods",
-        ),
+        new Error("Property categoryId not have a factory, use 'with' methods"),
       );
     });
     test('should be undefined', () => {
@@ -353,7 +351,9 @@ describe('CategoryFakerBuilder Unit Tests', () => {
       test('should throw error when any with methods has called', () => {
         const fakerCategory = CategoryFakeBuilder.aCategory();
         expect(() => fakerCategory.createdAt).toThrow(
-          new Error("Property createdAt not have a factory, use 'with' methods"),
+          new Error(
+            "Property createdAt not have a factory, use 'with' methods",
+          ),
         );
       });
       test('should be undefined', () => {
@@ -375,7 +375,9 @@ describe('CategoryFakerBuilder Unit Tests', () => {
         const category = faker.build();
         expect(category.createdAt.getTime()).toBe(date.getTime() + 2);
         const fakerMany = CategoryFakeBuilder.theCategories(2);
-        fakerMany.withCreatedAt((index) => new Date(date.getTime() + index + 2));
+        fakerMany.withCreatedAt(
+          (index) => new Date(date.getTime() + index + 2),
+        );
         const categories = fakerMany.build();
         expect(categories[0].createdAt.getTime()).toBe(date.getTime() + 2);
         expect(categories[1].createdAt.getTime()).toBe(date.getTime() + 3);

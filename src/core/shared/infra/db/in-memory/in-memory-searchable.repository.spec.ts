@@ -1,8 +1,8 @@
-import { Entity } from "../../../domain/entity";
-import { SearchParams } from "../../../domain/repositories/search-params";
-import { SearchResult } from "../../../domain/repositories/search-result";
-import { Uuid } from "../../../domain/value-objects/uuid.vo";
-import { InMemorySearchableRepository } from "./in-memory.repository";
+import { Entity } from '../../../domain/entity';
+import { SearchParams } from '../../../domain/repositories/search-params';
+import { SearchResult } from '../../../domain/repositories/search-result';
+import { Uuid } from '../../../domain/value-objects/uuid.vo';
+import { InMemorySearchableRepository } from './in-memory.repository';
 
 type StubEntityConstructorProps = {
   entityId?: Uuid;
@@ -36,7 +36,7 @@ class StubInMemorySearchableRepository extends InMemorySearchableRepository<
   getEntity(): new (...args: any[]) => StubEntity {
     return StubEntity;
   }
- 
+
   protected async applyFilter(
     items: StubEntity[],
     filter: string | null,

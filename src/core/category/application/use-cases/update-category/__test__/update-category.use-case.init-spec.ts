@@ -22,8 +22,6 @@ type Arrange = {
   };
 };
 
-
-
 describe('UpdateCategoryUseCase Integration Tests', () => {
   let useCase: UpdateCategoryUseCase;
   let repository: CategorySequelizeRepository;
@@ -138,9 +136,8 @@ describe('UpdateCategoryUseCase Integration Tests', () => {
       isActive: true,
       createdAt: entity.createdAt,
     });
-   
-    for (const i of arrange) {
 
+    for (const i of arrange) {
       output = await useCase.execute({
         id: i.input.id,
         ...(i.input.name && { name: i.input.name }),
@@ -148,7 +145,6 @@ describe('UpdateCategoryUseCase Integration Tests', () => {
         ...('isActive' in i.input && { isActive: i.input.isActive }),
       });
       const entityUpdated = await repository.findById(Uuid.create(i.input.id));
-
 
       expect(output).toStrictEqual({
         id: entity.categoryId.id,

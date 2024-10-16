@@ -11,9 +11,10 @@ import { CategoryModel } from '@core/category/infra/db/sequelize/category.model'
       dialect: 'sqlite',
       host: ':memory:',
       logging: false,
-      models:[CategoryModel],
+      models: [CategoryModel],
     }),
-    CategoriesModule],
+    CategoriesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
