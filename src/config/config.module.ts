@@ -4,6 +4,8 @@ import {
   ConfigModule as NestConfigModule,
 } from '@nestjs/config';
 import { join } from 'path';
+import { envSchema } from './env.schema';
+
 @Module({})
 export class ConfigModule extends NestConfigModule {
   static forRoot(options: ConfigModuleOptions = {}) {
@@ -15,6 +17,7 @@ export class ConfigModule extends NestConfigModule {
         join(process.cwd(), 'envs', `.env.${process.env.NODE_ENV}`),
         join(process.cwd(), 'envs', `.env`),
       ],
+      validate: (env) => envSchema.parse(env),
       ...otherOptions,
     });
   }
