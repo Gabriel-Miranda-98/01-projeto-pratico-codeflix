@@ -15,7 +15,8 @@ export type CategoryModelAttributes = {
   createdAt: 'created_at',
 })
 export class CategoryModel extends Model<CategoryModelAttributes> {
-  @Column({ type: DataType.UUIDV4, primaryKey: true })
+  @Column({  type: DataType.UUID,
+    defaultValue: DataType.UUIDV4, primaryKey: true })
   declare categoryId: string;
   @Column({ allowNull: false, type: DataType.STRING(255) })
   declare name: string;
