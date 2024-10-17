@@ -3,9 +3,9 @@ services:
     build: .
     command: tail -f /dev/null
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
-      - TZ="America/Sao_Paulo"
+      - TZ=America/Sao_Paulo
       - NODE_ENV=development
     volumes:
       - .:/home/node/app
@@ -18,20 +18,33 @@ services:
       - POSTGRESQL_PASSWORD=postgres
       - POSTGRESQL_DATABASE=postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres-data:/bitnami/postgresql
-# create service use pgadmin set port default 8000
+
+  # create service use pgadmin set port default 8000
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL="codeflix@teste.com"
-      - PGADMIN_DEFAULT_PASSWORD="codeflix"
+      - PGADMIN_DEFAULT_EMAIL=codeflix@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=codeflix
       - PGADMIN_LISTEN_PORT=8000
     ports:
-      - "8000:8000"
+      - '8000:8000'
+    volumes:
+      - pgadmin-data:/root/.pgadmin
+  db_test:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+      - POSTGRES_DB=test_db
+    ports:
+      - '5433:5432'
+    tmpfs:
+      - /var/lib/postgresql/data
 
 
 volumes:
   postgres-data:
- 
+  pgadmin-data:
